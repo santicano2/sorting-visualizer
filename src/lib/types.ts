@@ -4,3 +4,8 @@ export type SortingAlhorithmType =
   | "selection"
   | "merge"
   | "quick";
+
+export type SelectOptionsType = {
+  value: string;
+  label: string;
+};

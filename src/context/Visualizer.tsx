@@ -1,10 +1,13 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { createContext, useState } from "react";
 
 import { SortingAlhorithmType } from "@/lib/types";
-import { MAX_ANIMATION_SPEED } from "@/lib/utils";
+import {
+  generateRandomNumberFromInterval,
+  MAX_ANIMATION_SPEED,
+} from "@/lib/utils";
 
 interface SortingAlhorithmContextType {
   arrayToSort: number[];
@@ -30,7 +33,7 @@ export const SortingAlhorithmProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [arrayToSort, setArrayToSort] = useState<number[]>([100, 300, 250, 75]);
+  const [arrayToSort, setArrayToSort] = useState<number[]>([]);
   const [selectedAlgorithm, setSelectedAlgorithm] =
     useState<SortingAlhorithmType>("bubble");
   const [isSorting, setIsSorting] = useState<boolean>(false);
@@ -39,7 +42,29 @@ export const SortingAlhorithmProvider = ({
   const [isAnimationComplete, setIsAnimationComplete] =
     useState<boolean>(false);
 
-  const resetArrayAndAnimation = () => {};
+  useEffect(() => {
+    resetArrayAndAnimation();
+    window.addEventListener("resize", resetArrayAndAnimation);
+  }, []);
+
+  const resetArrayAndAnimation = () => {
+    const contentContainer = document.getElementById("content-container");
+    if (!contentContainer) return;
+
+    const contentContainerWidth = contentContainer.clientWidth;
+    const tempArray: number[] = [];
+    const numLines = contentContainerWidth / 8;
+    const containerHeight = window.innerHeight;
+    const maxLineHeight = Math.max(containerHeight - 420, 100);
+
+    for (let i = 0; i < numLines; i++) {
+      tempArray.push(generateRandomNumberFromInterval(35, maxLineHeight));
+    }
+
+    setArrayToSort(tempArray);
+    setIsAnimationComplete(false);
+    setIsSorting(false);
+  };
 
   const runAnimation = () => {};
 

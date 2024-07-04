@@ -1,5 +1,7 @@
 "use client";
 
+import { RxReset } from "react-icons/rx";
+
 import { useSortingAlhorithm } from "@/context/Visualizer";
 
 import { algorithmOptions } from "@/lib/utils";
@@ -7,6 +9,7 @@ import { SortingAlhorithmType } from "@/lib/types";
 
 import { Slider } from "@/components/input/Slider";
 import { Select } from "@/components/input/Select";
+import { FaPlayCircle } from "react-icons/fa";
 
 export default function Home() {
   const {
@@ -16,10 +19,21 @@ export default function Home() {
     setAnimationSpeed,
     selectedAlgorithm,
     setSelectedAlgorithm,
+    requiresReset,
+    resetArrayAndAnimation,
   } = useSortingAlhorithm();
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedAlgorithm(e.target.value as SortingAlhorithmType);
+  };
+
+  const handlePlay = () => {
+    if (requiresReset) {
+      resetArrayAndAnimation();
+      return;
+    }
+
+    // Generate animation array
   };
 
   return (
@@ -45,6 +59,16 @@ export default function Home() {
                 onChange={handleSelectChange}
                 isDisabled={isSorting}
               />
+              <button
+                className="flex items-center justify-center"
+                onClick={() => null}
+              >
+                {requiresReset ? (
+                  <RxReset className="text-gray-400 h-8 w-8" />
+                ) : (
+                  <FaPlayCircle className="text-system-green60 h-8 w-8" />
+                )}
+              </button>
             </div>
           </div>
           <div className="relative h-[calc(100vh-66px)] w-full">

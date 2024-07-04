@@ -109,7 +109,7 @@ export const SortingAlhorithmProvider = ({
           const [lineIndex, newHeight] = values;
           updateHeightValue(lineIndex, newHeight);
         }
-      }, index * animationSpeed)
+      }, index * inverseSpeed)
     );
   };
 
